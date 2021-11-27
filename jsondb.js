@@ -9,6 +9,6 @@ const JSONdb = require('simple-json-db')
  * @example jsondb.initialize('main')
  */
 const initialize = filename =>
-    new JSONdb(path.join(root, `${filename}.json`))
+    new JSONdb(path.join(root.folder, `${filename}.json`))
 
 module.exports = { initialize }
