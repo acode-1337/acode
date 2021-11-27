@@ -25,8 +25,8 @@ const argument = (k, v) =>
 const addressKeygen = (skeyFile, vkeyFile) =>
     terminal.node([
         'address key-gen',
-        argument('signing-key-file')(skeyFile),
-        argument('verification key file')(vkeyFile)
+        argument('signing-key-file', skeyFile),
+        argument('verification key file', vkeyFile)
     ])
 
 /**
@@ -54,7 +54,7 @@ const querySlot = () =>
 const queryUtxo = address =>
     terminal.node([
         'query utxo',
-        argument('address')(address),
+        argument('address', address),
         network.node()
     ])
 
@@ -251,7 +251,7 @@ const policy = (id, scriptCustom) => {
                 type: 'sig',
                 keyHash: terminal.node([
                     'address key-hash',
-                    argument('payment verification key file')(P.vkeyFile)
+                    argument('payment verification key file', P.vkeyFile)
                 ]).trim()
             }]
         })
@@ -264,7 +264,7 @@ const policy = (id, scriptCustom) => {
             'echo',
             terminal.node([
                 'transaction policyid',
-                argument('script file')(P.scriptFile)
+                argument('script file', P.scriptFile)
             ]).trim(),
             `> ${P.idFile}`
         ])
@@ -274,7 +274,7 @@ const policy = (id, scriptCustom) => {
     // attach policy id to policy metadata
     P.id = terminal.node([
         'transaction policyid',
-        argument('script file')(P.scriptFile)
+        argument('script file', P.scriptFile)
     ]).trim()
 
     return P
@@ -294,7 +294,7 @@ const protocol = () => {
 
     terminal.node([
         'query protocol-parameters',
-        argument('out file')(protocolFile),
+        argument('out file', protocolFile),
         network.node()
     ])
 
@@ -343,11 +343,11 @@ const transaction = id => {
 const transactionFee = (rawFile, inCount, outCount, witnessCount) =>
     parseInt(terminal.node([
         'transaction calculate-min-fee',
-        argument('tx body file')(rawFile),
-        argument('tx in count')(inCount),
-        argument('tx out count')(outCount),
-        argument('witness count')(witnessCount || 1),
-        argument('protocol params file')(protocol()),
+        argument('tx body file', rawFile),
+        argument('tx in count', inCount),
+        argument('tx out count', outCount),
+        argument('witness count', witnessCount || 1),
+        argument('protocol params file', protocol()),
         network.node()
     ]))
 
@@ -386,16 +386,16 @@ const createToken = (policy, wallet, name, supply) => {
     // raw build
     const rawA = [
         'transaction build-raw',
-        argument('tx in')(utxo.txcomb),
+        argument('tx in', utxo.txcomb),
         // wallet address receives token
-        argument('tx out')(`${wallet.addr}+${toLovelace(1.5)}+"${supply} ${policy.id}.${name}"`),
+        argument('tx out', `${wallet.addr}+${toLovelace(1.5)}+"${supply} ${policy.id}.${name}"`),
         /// wallet address receives excess balance
-        argument('tx out')(`${wallet.addr}+${utxo.lovelace}`),
+        argument('tx out', `${wallet.addr}+${utxo.lovelace}`),
         `--mint="${supply} ${policy.id}.${name}"`,
-        argument('minting-script file')(policy.scriptFile),
-        argument('invalid hereafter')(slot),
-        argument('fee')(0),
-        argument('out file')(T.rawFile)
+        argument('minting-script file', policy.scriptFile),
+        argument('invalid hereafter', slot),
+        argument('fee', 0),
+        argument('out file', T.rawFile)
     ]
 
     terminal.node(rawA)
@@ -407,14 +407,16 @@ const createToken = (policy, wallet, name, supply) => {
     // draft build
     const draftA = [
         'transaction build-raw',
-        argument('tx in')(utxo.txcomb),
-        argument('tx out')(`${wallet.addr}+${toLovelace(1.5)}+"${supply} ${policy.id}.${name}"`),
-        argument('tx out')(`${wallet.addr}+${utxo.lovelace}`),
+        argument('tx in', utxo.txcomb),
+        // wallet address receives token
+        argument('tx out', `${wallet.addr}+${toLovelace(1.5)}+"${supply} ${policy.id}.${name}"`),
+        /// wallet address receives excess balance
+        argument('tx out', `${wallet.addr}+${utxo.lovelace}`),
         `--mint="${supply} ${policy.id}.${name}"`,
-        argument('minting-script file')(policy.scriptFile),
-        argument('invalid hereafter')(slot),
-        argument('fee')(fees),
-        argument('out file')(T.draftFile)
+        argument('minting-script file', policy.scriptFile),
+        argument('invalid hereafter', slot),
+        argument('fee', fees),
+        argument('out file', T.rawFile)
     ]
 
     terminal.node(draftA)
@@ -422,10 +424,10 @@ const createToken = (policy, wallet, name, supply) => {
     // signed build
     const signedA = [
         'transaction sign',
-        argument('signing-key-file')(wallet.skeyFile),
-        argument('signing-key-file')(policy.skeyFile),
-        argument('tx-body-file')(T.draftFile),
-        argument('out file')(T.signedFile),
+        argument('signing-key-file', wallet.skeyFile),
+        argument('signing-key-file', policy.skeyFile),
+        argument('tx-body-file', T.draftFile),
+        argument('out file', T.signedFile),
         network.node()
     ]
 
@@ -434,7 +436,7 @@ const createToken = (policy, wallet, name, supply) => {
     // submit transaction
     terminal.node([
         'transaction submit',
-        argument('tx-file')(T.signedFile),
+        argument('tx-file', T.signedFile),
         network.node()
     ])
 
