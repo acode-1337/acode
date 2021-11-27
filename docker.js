@@ -24,10 +24,8 @@ const volumeCloud = () =>
  * volume path in local machine
  * @return {String} production mainnet || testnet
  */
-const volumeLocal = () => path.join(
-    root.folder(),
-    volumeCloud()
-)
+const volumeLocal = () =>
+    network.state()
 
 /**
  * Docker run action
