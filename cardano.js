@@ -1,3 +1,4 @@
+const dayjs = require('dayjs')
 const _ = require('lodash')
 const path = require('path')
 const centos = require('./centos')
@@ -213,7 +214,7 @@ const wallet = id => {
         scriptFile: String,
     }
  */
-const policy = (id, scriptCustom) => {
+const policy = (id, scriptCustom, lock) => {
     /** @type {String} default folder for policy */
     const folderPolicy = path.join(docker.volumeCloud(), 'policy')
 
@@ -247,15 +248,22 @@ const policy = (id, scriptCustom) => {
         /** @type {String} policy script JSON string */
         const script = scriptCustom || centos.json({
             type: 'all',
-            scripts: [{
-                type: 'sig',
-                keyHash: terminal.node([
-                    'address key-hash',
-                    argument('payment verification key file', P.vkeyFile)
-                ]).trim()
-            }]
-        })
+            scripts: [
+                {
+                    type: 'sig',
+                    keyHash: terminal.node([
+                        'address key-hash',
+                        argument('payment verification key file', P.vkeyFile)
+                    ]).trim(),
+                },
+                lock ? {
+                    type: "before",
+                    // create  locking date 6 months from now
+                    slot: parseInt(terminal.run([`date -d '${dayjs().add(6, 'months').format('YYYY-MM-DD')}T00:00:00+00:00 - ${centos.timestamp() - querySlot()} seconds' +%s`]))
 
+                } : false
+            ].filter(i => i),
+        })
         // echo policy script json string to policy.script
         terminal.centos([`echo ${script}\n > ${P.scriptFile}`])
 
