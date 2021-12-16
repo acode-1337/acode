@@ -143,6 +143,36 @@ const toLovelace = amount =>
 const toAda = amount =>
     amount / 1000000
 
+const metadata = (id, json) => {
+    /** @type {String} default folder for wallet */
+    const folderMetadata = path.join(docker.volumeCloud(), 'metadata')
+
+    /** @type {String} main folder for wallet by id */
+    const folderId = path.join(folderMetadata, id)
+
+
+    /** @type {Object} wallet metadata containing paths to .skey .vkey .addr and wallet address */
+    const M = {
+        json,
+        jsonFile: path.join(folderId, `${id}.json`),
+    }
+
+    /** @type {Number} files checker */
+    const missingFiles = Object.keys(M).filter(k => k !== 'json')
+        .flatMap(k => M[k])
+        .flatMap(v => centos.fileExist(v))
+        .filter(v => !v)
+        .length
+
+    if (missingFiles) {
+        // create new wallet folder by id
+        centos.folderCreate(folderId)
+        terminal.centos([`echo ${centos.json(json)}\n > ${M.jsonFile}`])
+    }
+
+    return M
+}
+
 /**
  * Generate new wallet based on ID string given
  *
@@ -469,5 +499,6 @@ module.exports = {
     toLovelace,
     transaction,
     transactionFee,
-    createToken
+    createToken,
+    metadata
 }
