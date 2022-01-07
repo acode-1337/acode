@@ -9,7 +9,7 @@ const blockfrost = require('./src/blockfrost')
 
 const config = {
     PROJECT: 'GOMBOI',
-    CREATOR_ADDR: 'addr_test1qqak6ml6yy09w266ylk4ycuu2lauuexmgjlhtfvfx2dhjqzdc6fe4vlcnmsdf933t8wr5guwgggc3aupdsrwpnq6sktqrt5e7e',
+    CREATOR_ADDR: 'addr1qxtvdtzuak64lv6rqlnltljmatswt3rvq3s0fxrjqpl8lxwvd24r80449emmj6g9n9h6qfyyypnh7qadfu86pze00wkspr3wwz',
     PRICE: 8
 }
 
