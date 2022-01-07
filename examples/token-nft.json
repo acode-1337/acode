@@ -1,0 +1,17 @@
+{
+	"name": "₳code Token NFT",
+	"description": "An example of a token as an NFT with a limited amount of supply.",
+	"image": "ipfs://QmStyvLbXSpjKGUpkPWnwRdV1Bhoyr6skvQQoWMVNJF1kZ",
+	"files": [
+		{
+			"mediaType": "image/png",
+			"name": "₳code",
+			"src": "ipfs://QmStyvLbXSpjKGUpkPWnwRdV1Bhoyr6skvQQoWMVNJF1kZ"
+		}
+	],
+	"socials": {
+		"github": "https://github.com",
+		"website": "https://acode.space",
+		"twitter": "https://twitter.com/krscarillo"
+	}
+}
