@@ -8,7 +8,7 @@ const terminal = require('./src/terminal')
 const blockfrost = require('./src/blockfrost')
 
 const config = {
-    PROJECT: 'ADAELEMENTZ_NEWYEAR',
+    PROJECT: 'ADAELEMENTZ_NEWYEAR_',
     NAME: 'ADAELEMENTZ',
     CREATOR_ADDR: 'addr1qxpjhh78pm9mhqtl0jss2wxxlvqa9elhlhx92kulx2jfchxvd24r80449emmj6g9n9h6qfyyypnh7qadfu86pze00wks36vjqz',
     PRICE: 3
