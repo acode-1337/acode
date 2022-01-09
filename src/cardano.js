@@ -147,14 +147,13 @@ const metadata = (id, json) => {
     /** @type {String} default folder for wallet */
     const folderMetadata = path.join(docker.volumeCloud(), 'metadata')
 
-    /** @type {String} main folder for wallet by id */
-    const folderId = path.join(folderMetadata, id)
-
 
     /** @type {Object} wallet metadata containing paths to .skey .vkey .addr and wallet address */
     const M = {
         json,
-        jsonFile: path.join(folderId, `${id}.json`),
+        jsonFile: path.join(folderMetadata, `${id}.json`),
+        jsonEscapeFile: path.join(folderMetadata, `${id}-escape.json`),
+        jsonRawFile: path.join(folderMetadata, `${id}-raw.json`)
     }
 
     /** @type {Number} files checker */
@@ -166,8 +165,12 @@ const metadata = (id, json) => {
 
     if (missingFiles) {
         // create new wallet folder by id
-        centos.folderCreate(folderId)
-        terminal.centos([`echo ${centos.json(json)}\n > ${M.jsonFile}`])
+        const chunks = centos.json(json)
+        for (const [idx, chunk] of chunks.entries()) {
+            console.log(idx+1, chunks.length)
+            if(idx+1 !== chunks.length) terminal.centos([`echo -n ${chunk} >> ${M.jsonFile}`])
+            else terminal.centos([`echo -n ${chunk}\n >> ${M.jsonFile}`])
+        }
     }
 
     return M

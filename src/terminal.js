@@ -10,8 +10,8 @@ const docker = require('./docker')
 const run = args => {
     const argsClean = args.filter(i => i)
     const argsSpaced = argsClean.join(' ')
-    const result = cmd.runSync(argsSpaced)
     console.log(argsSpaced)
+    const result = cmd.runSync(argsSpaced)
     if (result.err) throw new Error(result.err)
     else return result.data
 }

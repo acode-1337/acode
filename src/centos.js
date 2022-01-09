@@ -14,11 +14,16 @@ const timestamp = () =>
  * @param {Object} obj object
  * @return {String} JSON string
  */
-const json = obj => JSON.stringify(obj)
-    .split('\n')
-    .map(i => `'${i}' \\`)
-    .join('\n')
-    .replace(new RegExp('"', 'g'), '\\"')
+const json = obj => {
+    const string = JSON.stringify(obj)
+    const chunks = string.match(/.{1,50000}/g)
+    return chunks.map(chunk => chunk
+        .split('\n')
+        .map(i => `'${i}' \\`)
+        .join('')
+        .replace(new RegExp('"', 'g'), '\\"')
+    )
+}
 /**
  * Checks file if exists on given path
  *
