@@ -1,17 +1,14 @@
 const fs = require('fs')
 const _ = require('lodash')
 const centos = require('./src/centos')
-const jsondb = require('./src/jsondb')
 const cardano = require('./src/cardano')
 const network = require('./src/network')
 const terminal = require('./src/terminal')
-const blockfrost = require('./src/blockfrost')
 
 const config = {
-    PROJECT: 'acode',
-    NAME: 'ACODE',
-    SUPPLY: 1000000,
-    DEV_ADDR: 'addr_test1qqak6ml6yy09w266ylk4ycuu2lauuexmgjlhtfvfx2dhjqzdc6fe4vlcnmsdf933t8wr5guwgggc3aupdsrwpnq6sktqrt5e7e'
+    PROJECT: 'ADAELEMENTZ_NEWYEAR',
+    NAME: 'ADAELEMENTZ',
+    DEV_ADDR: 'addr1qxpjhh78pm9mhqtl0jss2wxxlvqa9elhlhx92kulx2jfchxvd24r80449emmj6g9n9h6qfyyypnh7qadfu86pze00wks36vjqz'
 }
 
 const main = async () => {
