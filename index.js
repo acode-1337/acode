@@ -6,13 +6,13 @@ const network = require('./src/network')
 const terminal = require('./src/terminal')
 
 const config = {
-    PROJECT: 'ADAELEMENTZ_NEWYEAR',
+    PROJECT: 'ADAELEMENTZ_NEWYEAR_',
     NAME: 'ADAELEMENTZ',
     DEV_ADDR: 'addr1qxpjhh78pm9mhqtl0jss2wxxlvqa9elhlhx92kulx2jfchxvd24r80449emmj6g9n9h6qfyyypnh7qadfu86pze00wks36vjqz'
 }
 
 const main = async () => {
-    const wallet = cardano.wallet('royalty')
+    const wallet = cardano.wallet('ADAELEMENTZ_NEWYEAR_')
     const policy = cardano.policy(`${config.PROJECT}`, false, true)
     console.log(`\n\n ROYALTY\n ${wallet.addr} \n\n`)
 
@@ -20,9 +20,7 @@ const main = async () => {
     if (!Object.keys(tokenJSON).length) throw new Error('Cannot mint empty JSON')
 
     const royalty = {
-        777: {
-            [policy.id]: [{ ...tokenJSON }]
-        }
+        777: { ...tokenJSON }
     }
 
     const utxos = cardano.queryUtxoJson(wallet.addr)
