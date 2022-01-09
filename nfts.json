@@ -1,0 +1,22 @@
+{
+    "ADAELEMENTZ2022": {
+        "name": "ADA Elementz 2022",
+        "image": "ipfs://QmUQdQU4Sxfsz4iigBQTgtBKy7gJfHd6uMyy1EopkxQC3j",
+        "mediaType": "image/png",
+        "files": [
+            {
+                "name": "ADA Elementz 2022",
+                "mediaType": "image/png",
+                "src": "ipfs://QmPVKRW8pJUyaB75Aq4yArUMuTDxixRNC9GUvDm4BHzEN3"
+            }
+        ],
+        "attributes": {
+            "element": "air"
+        },
+        "socials": {
+            "twitter": "https://twitter.com/AdaElementz",
+            "discord": "https://dsc.gg/elementz",
+            "website": "https://www.adaelementz.io"
+        }
+    }
+}
