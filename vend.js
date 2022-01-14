@@ -47,7 +47,7 @@ const main = async () => {
         _.take(
             cardano.queryUtxoJson(wallet.addr)
                 .filter(utxo => !db.has(utxo.txcomb)),
-            1
+            30
         )
             // filters transactions received excluding already processed txix and hash
             // query blockfrost for sender address
