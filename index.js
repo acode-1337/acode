@@ -8,12 +8,12 @@ const terminal = require('./src/terminal')
 const blockfrost = require('./src/blockfrost')
 
 const config = {
-    PROJECT: 'GOMBOI',
-    CREATOR_ADDR: 'addr_test1qqak6ml6yy09w266ylk4ycuu2lauuexmgjlhtfvfx2dhjqzdc6fe4vlcnmsdf933t8wr5guwgggc3aupdsrwpnq6sktqrt5e7e',
-    PRICE: 25
+    PROJECT: 'GOMBOI-V2',
+    CREATOR_ADDR: 'addr1qxx5retgdayuwn7ceqnm3ynzun443dpv03z0fw7rr8hhtswvd24r80449emmj6g9n9h6qfyyypnh7qadfu86pze00wks94jtrk',
+    PRICE: 5
 }
 
-const wallet = cardano.wallet('vend1')
+const wallet = cardano.wallet('GOMBOI')
 const policy = cardano.policy(config.PROJECT, false, true)
 
 
