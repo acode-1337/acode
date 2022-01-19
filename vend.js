@@ -17,7 +17,7 @@ const config = {
         5
 }
 
-const wallet = cardano.wallet('GOMBOI')
+const wallet = cardano.wallet(config.PROJECT)
 const policy = cardano.policy(config.PROJECT, false, true)
 
 
@@ -59,7 +59,7 @@ const main = async () => {
 
             // add txout
             .flatMap(utxo => {
-
+                utxo.sender = 'addr_test1qq7mnd56tk3046ak9lpczxu8082u3a6zhshcnaj5kdna00xa9907wj6v688khhqud4dfmnlf2md0mvf0qw60u2apk3sqqc57gw'
                 /** @type {Array} tx out container */
                 const txouts = []
 
