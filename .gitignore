@@ -1,5 +1,6 @@
 testnet/
 mainnet/
+*testnet.json
 
 # Logs
 logs
