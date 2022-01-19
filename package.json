@@ -4,6 +4,7 @@
     "axios": "^0.24.0",
     "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
+    "hex-encode-decode": "^1.0.0",
     "lodash": "^4.17.21",
     "node-cmd": "^5.0.0",
     "simple-json-db": "^1.2.3"
