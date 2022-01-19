@@ -16,6 +16,16 @@ const getSenderFromUtxo = utxo => axios({
     }
 }).then(res => ({ ...utxo, sender: res.data.inputs[0].address }))
 
+const getAddressUtxos = address => axios({
+    url: `https://cardano-${network.state()}.blockfrost.io/api/v0/addresses/${address}/utxos`,
+    method: 'GET',
+    headers: {
+        project_id: env.get('BLOCKFROST_PROJECT_ID')
+    }
+}).then(res => res.data)
+
+
 module.exports = {
-    getSenderFromUtxo
+    getAddressUtxos,
+    getSenderFromUtxo,
 }
