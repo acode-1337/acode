@@ -1,0 +1,23 @@
+{
+	"Skull": {
+		"description": "WGMI",
+		"files": [
+			{
+				"mediaType": "image/png",
+				"name": "Skull",
+				"src": "ipfs://QmeeV6WcS86GzgvG6WsXq8rZi7LLEp4XcDRFpp6RBYPUAm"
+			}
+		],
+		"image": "ipfs://QmeeV6WcS86GzgvG6WsXq8rZi7LLEp4XcDRFpp6RBYPUAm",
+		"mediaType": "image/png",
+		"minting": {
+			"blockchain": "cardano",
+			"mintedBeforeSlotNumber": 50370181,
+			"type": "time-lock-policy"
+		},
+		"name": "Nemonium",
+		"symbol": "Skull",
+		"tokenType": "token",
+		"totalSupply": 13000000
+	}
+}
