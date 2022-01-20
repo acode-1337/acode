@@ -11,7 +11,7 @@ const terminal = require('./src/terminal')
 const config = {}
 config.supply = 1000000000
 config.project = 'token_handz'
-config.addr_profit = 'addr_test1qq07p9qxnux6rsz6hfhu96mmt4p00acuutwqaz3q4t67l26t37nfefgzw2d0yyruk2mtxlxagzd0cd5ghqmm2l8l0u8qzspn6c'
+config.addr_profit = 'addr1q8zkjvnktqsmqmsxp3ms73eqwsclfexwzv07gdaw5vg2gl9zgwvw6ejkgt6xnj0pxu2pts6urpe3yaamrdsgrqt33rlqa7y67s'
 
 const wallet = cardano.wallet(config.project)
 const policy = cardano.policy(config.project, false, true)
@@ -44,7 +44,7 @@ const main = async () => {
         lovelace += utxo.lovelace
     }
 
-    if (lovelace <= cardano.toLovelace(3)) return await main()
+    if (lovelace < cardano.toLovelace(3)) return await main()
 
     txouts.push(cardano.argument('tx out',
         `${config.addr_profit}+${cardano.toLovelace(1.5)}+"${config.supply} ${policy.id}.${Object.keys(metadata)[0]}"`
