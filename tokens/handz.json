@@ -1,0 +1,14 @@
+{
+	"HANDZ": {
+		"name": "Handz",
+		"symbol": "HANDZ",
+		"mediaType": "image/png",
+		"website": "https://www.handz-gang.io/",
+		"image": "ipfs://QmdvbedwdwNvfdymn6w9eDR3gfSNKCXhH43ZvVPsJ8spwM",
+		"description": "The official token of the Handz NFT project.",
+		"socials": {
+			"discord": "https://discord.gg/GWUS49WMY9",
+			"twitter": "https://twitter.com/handz_nft"
+		}
+	}
+}
