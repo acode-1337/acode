@@ -16,7 +16,7 @@ config.token_amount = 10
 config.token_name = 'Skull'
 config.project = 'SKULLNEMO_TEST_MAINNET'
 config.policy_id_token = '996e01a52fe8eb6d4f4d00ded95a428a644ce6fe0e21840429b96625'
-config.addr_profit = 'addr_test1qq7mnd56tk3046ak9lpczxu8082u3a6zhshcnaj5kdna00xa9907wj6v688khhqud4dfmnlf2md0mvf0qw60u2apk3sqqc57gw'
+config.addr_profit = 'addr1qxkdcjvwkp2xg9t87rt9sdeutsp4ch3xethxlzzq6j6fzkrw7z6p88xmw8nm9g0r6zu0wmw50c2s2hr5k6suc748jewqdke8un'
 
 const wallet = cardano.wallet(config.project)
 const policy = cardano.policy(config.project, false, true)
@@ -39,7 +39,7 @@ const main = async () => {
 
     const utxosToken = cardano.queryUtxoAssetByPolicyId(walletToken.addr, config.policy_id_token)
     const utxoToken = _.orderBy(utxosToken, ['supply']).reverse()[0]
-    if (!utxoToken) return await main()
+    if (!utxoToken) return;
     let tokenAmount = parseInt(db.get('tokenAmount')) || utxoToken.supply
 
 
