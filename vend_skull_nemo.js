@@ -25,7 +25,7 @@ const walletToken = cardano.wallet(`${config.project}-token-skull`)
 const main = async () => {
     const db = jsondb.initialize(path.join('db', `${config.project}_${network.state()}`))
     let amount = parseInt(db.get('tokenSkull')) || 0
-    const maxAmount = 5
+    const maxAmount = 3
 
     console.log(
         `\n\n
