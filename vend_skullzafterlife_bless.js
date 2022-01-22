@@ -17,8 +17,8 @@ const download = require('./src/download')
 
 const config = {}
 config.project = 'SKULLZAFTERLIFE_BLESS'
-config.policy_id = 'd9d988522b791b4dea7307b5455d8ad2d8ee3e9426ee439a59a3f547'
-config.addr_profit = 'addr_test1qzkdcjvwkp2xg9t87rt9sdeutsp4ch3xethxlzzq6j6fzkrw7z6p88xmw8nm9g0r6zu0wmw50c2s2hr5k6suc748jewqwqy8sv'
+config.policy_id = 'a780d38cf3180361b1dff604e17ee0e8bff0626a9e743bf341c26268'
+config.addr_profit = 'addr1q86gh66h4xlanzy6awgpndw963c5llmf7mkdd39m98r82m6qcmnunr5m6rq03kj7alnnhq384gkadm04sp42seusdm5qfp3k90'
 
 const wallet = cardano.wallet(config.project)
 const policy = cardano.policy(config.project, false, true)
