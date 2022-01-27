@@ -8,16 +8,17 @@ const network = require('./src/network')
 const hex = require('hex-encode-decode')
 const terminal = require('./src/terminal')
 const blockfrost = require('./src/blockfrost')
+const sleep = require('await-sleep')
 
 
 const config = {}
-config.ada_price = 13
+config.ada_price = 4
 config.project = 'SKULLWL_NEMO'
-config.policy_id_token = '19d45975f8b0098a6430ed9816e332fc7d4cf9a65de49487b71d279b'
-config.addr_profit = 'addr_test1qzkdcjvwkp2xg9t87rt9sdeutsp4ch3xethxlzzq6j6fzkrw7z6p88xmw8nm9g0r6zu0wmw50c2s2hr5k6suc748jewqwqy8sv'
+config.policy_id_token = '95ef7829379af37336b98b487c03c389c288cf938f54ddccd10185c2'
+config.addr_profit = 'addr1q8zkjvnktqsmqmsxp3ms73eqwsclfexwzv07gdaw5vg2gl9zgwvw6ejkgt6xnj0pxu2pts6urpe3yaamrdsgrqt33rlqa7y67s'
 
-const wallet = cardano.wallet(config.project)
-const walletToken = cardano.wallet(`${config.project}-skullwl`)
+const wallet = cardano.wallet(`${config.project}-vend`)
+const walletToken = cardano.wallet(`${config.project}-skullwl2`)
 
 const main = async () => {
 
@@ -35,11 +36,9 @@ const main = async () => {
 
     const utxosToken = cardano.queryUtxoAssetByPolicyId(walletToken.addr, config.policy_id_token)
     const utxoToken = _.first(utxosToken)
-    if (!utxoToken) return;
-    let tokenAmount = parseInt(db.get('tokenSupply')) || utxoToken.supply
+    let tokenAmount = 0 // parseInt(db.get('tokenSupply')) || utxoToken.supply
 
-
-    const utxos = _.take(cardano.queryUtxoJson(wallet.addr).reverse(), 20)
+    const utxos = _.take(cardano.queryUtxoJson(wallet.addr).filter(utxo => !db.has(utxo.txcomb)), 100)
     if (!utxos.length) return await main()
 
     let lovelace = 0
@@ -47,46 +46,28 @@ const main = async () => {
     const txouts = []
     const txhashs = []
     // $skull
-    txins.push(cardano.argument('tx in', utxoToken.txcomb))
+    // txins.push(cardano.argument('tx in', utxoToken.txcomb))
+    // lovelace += utxoToken.lovelace
 
-
+    console.log(utxos.length)
     for (const utxo of utxos) {
         const unitLovelace = utxo.lovelace
         const sender = await blockfrost.getSenderFromUtxo(utxo)
+        txins.push(cardano.argument('tx in', utxo.txcomb))
+        txhashs.push(utxo.txcomb)
+
         lovelace += unitLovelace
-        txins.push(cardano.argument('tx in', utxo.txcomb))
-        txhashs.push(utxo.txcomb)
+        if (sender.sender === config.addr_profit) continue
 
-        // send WL token
-        if (utxo.lovelace >= cardano.toLovelace(config.ada_price)) {
-            lovelace -= cardano.toLovelace(1.5)
-            tokenAmount -= 1
-            txouts.push(cardano.argument('tx out',
-                `${sender.sender}+${cardano.toLovelace(1.5)}+"1 ${utxoToken.asset}"`
-            ))
-
-            // refund excess
-            if (unitLovelace > cardano.toLovelace(config.ada_price)) {
-                const balance = unitLovelace - cardano.toLovelace(config.ada_price)
-                lovelace -= balance
-                txouts.push(cardano.argument('tx out',
-                    `${sender.sender}+${balance}`
-                ))
-            }
-        } else {
-            // refund
-            const balance = unitLovelace - cardano.toLovelace(.2)
-            lovelace -= unitLovelace
-            lovelace += cardano.toLovelace(.2)
-            txouts.push(cardano.argument('tx out',
-                `${sender.sender}+${balance}`
-            ))
-        }
-        txhashs.push(utxo.txcomb)
-        txins.push(cardano.argument('tx in', utxo.txcomb))
+        // refund
+        const balance = unitLovelace - cardano.toLovelace(.1)
+        lovelace -= balance
+        console.log(`R:${sender.sender}`, cardano.toAda(balance))
+        txouts.push(cardano.argument('tx out',
+            `${sender.sender}+${balance}`
+        ))
     }
-
-    if (lovelace <= cardano.toLovelace(2)) return await main()
+    console.log(lovelace)
 
     // BUILD TRANSACTION
     const timestamp = String(centos.timestamp())
@@ -99,7 +80,7 @@ const main = async () => {
         ...txins,
         ...txouts,
         cardano.argument('tx out', `${config.addr_profit}+${lovelace}`),
-        cardano.argument('tx out', `${walletToken.addr}+${utxoToken.lovelace}+"${tokenAmount} ${utxoToken.asset}"`),
+        // tokenAmount ? cardano.argument('tx out', `${walletToken.addr}+${utxoToken.lovelace}+"${tokenAmount} ${utxoToken.asset}"`) : false,
         cardano.argument('invalid-hereafter', slot),
         '--fee=0',
         cardano.argument('out file', T.rawFile)
@@ -114,6 +95,7 @@ const main = async () => {
         txouts.length
     )
     lovelace -= fees
+    console.log(lovelace, fees)
 
     // DRAFT
     const draftA = [
@@ -121,7 +103,7 @@ const main = async () => {
         ...txins,
         ...txouts,
         cardano.argument('tx out', `${config.addr_profit}+${lovelace}`),
-        cardano.argument('tx out', `${walletToken.addr}+${utxoToken.lovelace}+"${tokenAmount} ${utxoToken.asset}"`),
+        // tokenAmount ? cardano.argument('tx out', `${walletToken.addr}+${utxoToken.lovelace}+"${tokenAmount} ${utxoToken.asset}"`) : false,
         cardano.argument('invalid-hereafter', slot),
         `--fee=${fees}`,
         cardano.argument('out file', T.draftFile)
@@ -149,6 +131,15 @@ const main = async () => {
     // System saves the txix and hash.
     txhashs.forEach(tx => db.set(tx, true))
     db.set('tokenSupply', tokenAmount)
+
+    let currentAmount = _.first(cardano.queryUtxoAssetByPolicyId(walletToken.addr, config.policy_id_token)).supply
+    while (tokenAmount !== currentAmount) {
+        currentAmount = _.first(cardano.queryUtxoAssetByPolicyId(walletToken.addr, config.policy_id_token)).supply
+        console.log(tokenAmount, currentAmount)
+        console.log('TOKEN NOT UPDATED: SLEEPING 5 min')
+        await sleep(150000)
+    }
+
     if (tokenAmount) return await main()
 };
 

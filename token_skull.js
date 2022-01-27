@@ -9,9 +9,9 @@ const terminal = require('./src/terminal')
 
 
 const config = {}
-config.supply = 1000000000
-config.project = 'token_skull'
-config.addr_profit = 'addr_test1qrzkjvnktqsmqmsxp3ms73eqwsclfexwzv07gdaw5vg2gl9zgwvw6ejkgt6xnj0pxu2pts6urpe3yaamrdsgrqt33rlq7ge6j0'
+config.supply = 13000000
+config.project = 'token_skull222'
+config.addr_profit = 'addr1q8zkjvnktqsmqmsxp3ms73eqwsclfexwzv07gdaw5vg2gl9zgwvw6ejkgt6xnj0pxu2pts6urpe3yaamrdsgrqt33rlqa7y67s'
 
 const wallet = cardano.wallet(config.project)
 const policy = cardano.policy(config.project, false, true)
@@ -19,7 +19,7 @@ const policy = cardano.policy(config.project, false, true)
 
 const main = async () => {
     const db = jsondb.initialize(path.join('db', `${config.project}_${network.state()}`))
-    const tokenFile = JSON.parse(fs.readFileSync('tokens/skull.json', 'utf-8'))
+    const tokenFile = JSON.parse(fs.readFileSync('tokens/skull22.json', 'utf-8'))
 
     console.log(`\n\n
         ${config.project}

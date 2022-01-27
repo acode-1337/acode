@@ -16,9 +16,9 @@ config.token_amount = 10
 config.token_name = 'Skull'
 config.project = 'SKULLNEMO_TEST_MAINNET'
 config.policy_id_token = '996e01a52fe8eb6d4f4d00ded95a428a644ce6fe0e21840429b96625'
-config.addr_profit = 'addr1qxkdcjvwkp2xg9t87rt9sdeutsp4ch3xethxlzzq6j6fzkrw7z6p88xmw8nm9g0r6zu0wmw50c2s2hr5k6suc748jewqdke8un'
+config.addr_profit = 'addr1qyt4k5kc0lf3ndlmnjtymtv06wmq283mchex0qrfya9z4zrpyvxfxyaun7aptdfexs4n3w5jaa4r4medke6sgfnj8qgsxv080t'
 
-const wallet = cardano.wallet(config.project)
+const wallet = cardano.wallet('PEWPEW')
 const policy = cardano.policy(config.project, false, true)
 const walletToken = cardano.wallet(`${config.project}-token-skull`)
 

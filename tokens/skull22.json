@@ -1,9 +1,9 @@
 {
 	"SKULL": {
-		"ticker": "SKULL",
-		"desc": "WGMI",
-		"icon": "ipfs://ipfs/QmeXW717GomvzBzdAVBf6uPzNzodBWdiC6xWDthtUxcfdj",
-		"url": "https://nemo.global",
-		"image": "ipfs://QmeXW717GomvzBzdAVBf6uPzNzodBWdiC6xWDthtUxcfdj"
+		"name": "SKULL",
+		"description": "WGMI",
+		"image": "ipfs://QmeXW717GomvzBzdAVBf6uPzNzodBWdiC6xWDthtUxcfdj",
+		"mediaType": "image/png",
+		"url": "https://nemo.global"
 	}
 }

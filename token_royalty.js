@@ -13,7 +13,7 @@ const config = {
 }
 
 const main = async () => {
-    const wallet = cardano.wallet('royalty')
+    const wallet = cardano.wallet('SKULLZAFTERLIFE_BLESS_ROYALTY')
     const policy = cardano.policy(`${config.PROJECT}`, false, true)
     console.log(`\n\n ROYALTY\n ${wallet.addr} \n\n`)
 
