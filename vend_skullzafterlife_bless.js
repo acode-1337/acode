@@ -55,7 +55,7 @@ const main = async () => {
     const utxos = cardano.queryUtxoJson(wallet.addr)
     if (!utxos.length) return await main()
 
-    const utxosBlockfrost = _.take((await blockfrost.getAddressUtxos(wallet.addr).then(utxos => utxos.filter(utxo => !db.has(`${utxo.tx_hash}#${utxo.tx_index}`)))), 4)
+    const utxosBlockfrost = _.take((await blockfrost.getAddressUtxos(wallet.addr).then(utxos => utxos.filter(utxo => !db.has(`${utxo.tx_hash}#${utxo.tx_index}`)))), 2)
     if (!utxosBlockfrost.length) return await main()
 
     let lovelace = 0
