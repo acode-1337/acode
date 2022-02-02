@@ -15,7 +15,7 @@ const token = JSON.parse(
 console.log(token)
 
 const xxd = terminal.run([
-    `echo -n "${token.name}" | xxd -ps`
+    `echo -n "HANDZ" | xxd -ps`
 ])
 
 const policy = `${policyID}${xxd}`
@@ -26,8 +26,8 @@ console.log([
 ].join(' ').replace(/\n/g, "").trim())
 
 console.log([
-    `./token-metadata-creator entry ${policy} --name "${token.name}" --description "${token.description}"`,
-    `--ticker "${token.name}"`,
+    `./token-metadata-creator entry ${policy} --name "HANDZ" --description "${token.description}"`,
+    `--ticker "HANDZ"`,
     `--url "${token.website}"`,
     `--logo "${imageFile}"`,
     `--policy /home/hobo/icode/acode/src/mainnet/policy/${policyFolder}/policy.script`,

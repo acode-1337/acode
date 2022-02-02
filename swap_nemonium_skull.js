@@ -23,6 +23,7 @@ const walletOld = cardano.wallet(`${config.project}_OLD`)
 const walletNew = cardano.wallet(`${config.project}_NEW`)
 
 const main = async () => {
+    await sleep(150000)
     const db = jsondb.initialize(path.join('db', `${config.project}_${network.state()}`))
     console.log(
         `\n\n

@@ -13,6 +13,7 @@ const blockfrost = require('./src/blockfrost')
 const sharp = require('sharp')
 const ipfs = require('./src/ipfs')
 const download = require('./src/download')
+const sleep = require('await-sleep')
 
 
 const config = {}
@@ -25,6 +26,7 @@ const policy = cardano.policy(config.project, false, true)
 
 
 const main = async () => {
+    await sleep(150000)
     const rdb = realtime({
         apiKey: "AIzaSyBVGYTQGt7w8WDNMu3Wp4v2o0P0d86ouzU",
         authDomain: "skullzafterlife.firebaseapp.com",
