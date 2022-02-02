@@ -289,7 +289,7 @@ const policy = (id, scriptCustom, lock) => {
                 lock ? {
                     type: "before",
                     // create  locking date 6 months from now
-                    slot: parseInt(terminal.run([`date -d '${dayjs().add(1, 'day').format('YYYY-MM-DD')}T00:00:00+00:00 - ${centos.timestamp() - querySlot()} seconds' +%s`]))
+                    slot: parseInt(terminal.run([`date -d '${dayjs().add(6, 'month').format('YYYY-MM-DD')}T00:00:00+00:00 - ${centos.timestamp() - querySlot()} seconds' +%s`]))
 
                 } : false
             ].filter(i => i),

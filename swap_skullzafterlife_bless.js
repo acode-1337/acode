@@ -85,7 +85,7 @@ const main = async () => {
                 const metO = tokenFile[token]
                 const num = metO.name.split('#')[1]
                 const key = `SKULLZAF${num}`
-
+                console.log(key)
                 // image edits
                 await download.image(
                     `https://suitupnft.mypinata.cloud/ipfs/${metO.image.replace(

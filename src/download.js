@@ -1,6 +1,6 @@
 const fs = require('fs')
 const Axios = require('axios')
-
+Axios.defaults.timeout = 8000
 async function image(url, filename) {
     if (!fs.existsSync('dump')) fs.mkdirSync('dump')
     const path = `dump/${filename}.png`

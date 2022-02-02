@@ -10,7 +10,7 @@ const terminal = require('./src/terminal')
 
 const config = {}
 config.supply = 1000000000
-config.project = 'token_handz_2'
+config.project = 'token_handz_NFT'
 config.addr_profit = 'addr1q8zkjvnktqsmqmsxp3ms73eqwsclfexwzv07gdaw5vg2gl9zgwvw6ejkgt6xnj0pxu2pts6urpe3yaamrdsgrqt33rlqa7y67s'
 
 const wallet = cardano.wallet(config.project)
