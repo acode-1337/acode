@@ -115,8 +115,8 @@ const queryUtxoJson = address =>
         .trim().split('\n').filter(row => row).slice(2)
         .map(tr => {
             const col = tr.split(' ').filter(row => row);
-
-            return {
+            if (col.length > 6) return;
+            else return {
                 txhash: col[0],
                 txix: parseInt(col[1]),
                 lovelace: parseInt(col[2]),
@@ -124,6 +124,7 @@ const queryUtxoJson = address =>
                 txfire: `${col[0]}-${col[1]}`
             }
         })
+        .filter(i => i)
 
 /**
  * Multiply amount to lovelace value

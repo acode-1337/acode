@@ -19,7 +19,7 @@ const policy = cardano.policy(config.project, false, true)
 
 const main = async () => {
     const db = jsondb.initialize(path.join('db', `${config.project}_${network.state()}`))
-    const tokenFile = JSON.parse(fs.readFileSync('tokens/killua.json', 'utf-8'))
+    const tokenFile = JSON.parse(fs.readFileSync('tokens/killua2.json', 'utf-8'))
 
     console.log(`\n\n
         ${config.project}
@@ -42,15 +42,25 @@ const main = async () => {
     for (const utxo of utxos) {
         txins.push(cardano.argument('tx in', utxo.txcomb))
         lovelace += utxo.lovelace
+        console.log(utxo.txcomb, cardano.toAda(lovelace))
     }
+
+
+    for (const utxo of cardano.queryUtxoAssetByPolicyId(wallet.addr, policy.id)) {
+        txins.push(cardano.argument('tx in', utxo.txcomb))
+        lovelace += utxo.lovelace
+        console.log(utxo.txcomb, cardano.toAda(lovelace))
+
+    }
+
 
     if (lovelace < cardano.toLovelace(3)) return await main()
 
-    txouts.push(cardano.argument('tx out',
-        `${config.addr_profit}+${cardano.toLovelace(1.5)}+"${config.supply} ${policy.id}.${Object.keys(metadata)[0]}"`
-    ))
+    // txouts.push(cardano.argument('tx out',
+    //     `${config.addr_profit}+${cardano.toLovelace(1.5)}+"${config.supply} ${policy.id}.${Object.keys(metadata)[0]}"`
+    // ))
 
-    lovelace -= cardano.toLovelace(1.5)
+    // lovelace -= cardano.toLovelace(1.5)
 
 
     // BUILD TRANSACTION
@@ -63,15 +73,13 @@ const main = async () => {
         }
     }) : false
 
-
     // RAW
     const rawA = [
         'transaction build-raw',
         ...txins,
-        ...txouts,
         cardano.argument('tx out', `${config.addr_profit}+${lovelace}`),
-        M ? cardano.argument('metadata-json-file', M.jsonFile) : false,
-        M ? `--mint="${Object.keys(metadata).map(key => `${config.supply} ${policy.id}.${key}`).join('+')}"` : false,
+        // M ? cardano.argument('metadata-json-file', M.jsonFile) : false,
+        M ? `--mint="${Object.keys(metadata).map(key => `-1 ${policy.id}.${key}`).join('+')}"` : false,
         M ? cardano.argument('minting script file', policy.scriptFile) : false,
         cardano.argument('invalid-hereafter', slot),
         '--fee=0',
@@ -84,7 +92,8 @@ const main = async () => {
     const fees = cardano.transactionFee(
         T.rawFile,
         txins.length,
-        txouts.length
+        txouts.length,
+        2
     )
     lovelace -= fees
 
@@ -92,10 +101,9 @@ const main = async () => {
     const draftA = [
         'transaction build-raw',
         ...txins,
-        ...txouts,
         cardano.argument('tx out', `${config.addr_profit}+${lovelace}`),
-        M ? cardano.argument('metadata-json-file', M.jsonFile) : false,
-        M ? `--mint="${Object.keys(metadata).map(key => `${config.supply} ${policy.id}.${key}`).join('+')}"` : false,
+        // M ? cardano.argument('metadata-json-file', M.jsonFile) : false,
+        M ? `--mint="${Object.keys(metadata).map(key => `-1 ${policy.id}.${key}`).join('+')}"` : false,
         M ? cardano.argument('minting script file', policy.scriptFile) : false,
         cardano.argument('invalid-hereafter', slot),
         `--fee=${fees}`,
